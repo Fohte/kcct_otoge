@@ -1,10 +1,10 @@
 ﻿namespace Otoge.Util
 {
-	enum Difficulty 
-	{
-		Easy,
-		Medium,
-		Hard,
-		Expert
-	}
+  public enum Difficulty 
+  {
+    Easy,
+    Medium,
+    Hard,
+    Expert
+  }
 }
