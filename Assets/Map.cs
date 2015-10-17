@@ -4,7 +4,7 @@ namespace Otoge.Util
 {
   public class Map
   {
-    private static class SubExtensions
+    public static class SubExtensions
     {
       public const string Easy = "ez";
       public const string Medium = "med";
