@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Otoge.Util
 {
@@ -13,23 +14,20 @@ namespace Otoge.Util
     }
 
     public const string Extension = "otm";
-    public const string DirPath = "";
-    public string MapDirPath;
+    public readonly string DirPath = Application.dataPath + "/maps/";
     public string MapFilePath;
+    public string MusicId;
+    public Difficulty Difficulty;
 
     public void Load(string musicId, Difficulty difficulty)
     {
-
+      
     }
 
-    public void Save(List<Note> notes)
+    public void Save(Header header, Command List<Command> commands, List<Note> notes, string musicId = null, Difficulty? difficulty = null)
     {
-
-    }
-
-    public void Save(List<Note> notes, string musicId)
-    {
-
+      if (musicId == null) musicId = MusicId;
+      if (difficulty == null) difficulty = Difficulty;
     }
 
     public Header ParseHeader()
