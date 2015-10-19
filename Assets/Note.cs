@@ -1,4 +1,6 @@
-﻿public class Note
+﻿using UnityEngine;
+
+public class Note : MonoBehaviour
 {
   public const string MapPrefix = "=";
   public int Bar;
