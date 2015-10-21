@@ -536,13 +536,14 @@ public class Music : MonoBehaviour
     }
 
     Initialize();
-
+    Debug.Log("CreateSectionClips");
     OnSectionChanged();
   }
 
   // Use this for initialization
   void Start()
   {
+
   }
 
   // Update is called once per frame
@@ -624,6 +625,7 @@ public class Music : MonoBehaviour
 
   void OnSectionChanged()
   {
+    Debug.Log(CurrentSectionIndex);
     if (Sections == null || Sections.Count == 0) return;
     if (CurrentSection_.Tempo > 0.0f)
     {
@@ -660,6 +662,7 @@ public class Music : MonoBehaviour
 
     Current_ = this;
     Initialize();
+
     if (sectionName != "")
     {
       if (CreateSectionClips)
@@ -669,6 +672,7 @@ public class Music : MonoBehaviour
         {
           musicSource_ = sectionSources_[index];
           sectionIndex_ = index;
+          Debug.Log("index >= 0");
           OnSectionChanged();
         }
         else
@@ -691,6 +695,7 @@ public class Music : MonoBehaviour
     {
       musicSource_.timeSamples = targetSection.StartTimeSamples;
       sectionIndex_ = Sections.IndexOf(targetSection);
+      Debug.Log("targetSection != null");
       OnSectionChanged();
     }
     else
@@ -811,6 +816,7 @@ public class Music : MonoBehaviour
     if (newIndex != sectionIndex_)
     {
       sectionIndex_ = newIndex;
+      Debug.Log("newIndex != sectionIndex_");
       OnSectionChanged();
     }
 

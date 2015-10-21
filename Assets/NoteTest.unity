@@ -98,7 +98,7 @@ GameObject:
   - 114: {fileID: 1279659527}
   - 114: {fileID: 1279659528}
   m_Layer: 0
-  m_Name: Music
+  m_Name: music
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116,13 +116,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sections:
-  - Name: 
+  - Name: aaa
     UnitPerBeat: 4
     UnitPerBar: 16
     Tempo: 120
     StartBar: 0
     StartTimeSamples: 0
-    LoopType: 0
+    LoopType: 2
   EntryPointSample: 0
   DebugText: {fileID: 1917680529}
   CreateSectionClips: 0
@@ -230,6 +230,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f090f911a28cff74dbb8d49c6621cc03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  X: 0
+  Y: 0
+  Bar: 0
+  Rhythm: 
 --- !u!1 &1662444720
 GameObject:
   m_ObjectHideFlags: 0
