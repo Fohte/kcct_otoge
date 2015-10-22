@@ -42,13 +42,11 @@ namespace Otoge.Util
     public void Save(Header header, List<Command> commands, List<Note> notes, string musicId, Difficulty difficulty)
     {
       setFileInfo(musicId, difficulty);
-
     }
 
     public Header ParseHeader()
     {
       return null;
-
     }
 
     public List<Note> ParseNotes()
@@ -85,7 +83,6 @@ namespace Otoge.Util
           break;
       }
       this.MapFilePath = DirPath + MusicId + "/" + MusicId + "." + subExtension + "." + Extension;
-
     }
   }
 }
