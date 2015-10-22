@@ -488,7 +488,7 @@ public class Music : MonoBehaviour
 #if UNITY_EDITOR
     if (!UnityEditor.EditorApplication.isPlaying)
     {
-      OnValidate();
+      OnVal();
       return;
     }
 #endif
@@ -536,7 +536,6 @@ public class Music : MonoBehaviour
     }
 
     Initialize();
-    Debug.Log("CreateSectionClips");
     OnSectionChanged();
   }
 
@@ -555,7 +554,7 @@ public class Music : MonoBehaviour
     }
   }
 
-  void OnValidate()
+  public void OnVal()
   {
     if (musicSource_ == null)
     {
@@ -625,7 +624,6 @@ public class Music : MonoBehaviour
 
   void OnSectionChanged()
   {
-    Debug.Log(CurrentSectionIndex);
     if (Sections == null || Sections.Count == 0) return;
     if (CurrentSection_.Tempo > 0.0f)
     {
@@ -672,7 +670,6 @@ public class Music : MonoBehaviour
         {
           musicSource_ = sectionSources_[index];
           sectionIndex_ = index;
-          Debug.Log("index >= 0");
           OnSectionChanged();
         }
         else
@@ -695,7 +692,6 @@ public class Music : MonoBehaviour
     {
       musicSource_.timeSamples = targetSection.StartTimeSamples;
       sectionIndex_ = Sections.IndexOf(targetSection);
-      Debug.Log("targetSection != null");
       OnSectionChanged();
     }
     else
@@ -812,11 +808,9 @@ public class Music : MonoBehaviour
         }
       }
     }
-
     if (newIndex != sectionIndex_)
     {
       sectionIndex_ = newIndex;
-      Debug.Log("newIndex != sectionIndex_");
       OnSectionChanged();
     }
 
