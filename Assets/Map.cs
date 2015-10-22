@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
 
 namespace Otoge.Util
@@ -22,17 +23,32 @@ namespace Otoge.Util
 
     public void Load(string musicId, Difficulty difficulty)
     {
+      string line = "";
+      var FileData = new List<string>();
       setFileInfo(musicId, difficulty);
+      using (FileStream fs = new FileStream(MapFilePath, FileMode.Open))
+      {
+        using (StreamReader sr = new StreamReader(fs, Encoding.UTF8))
+        {
+          while ((line = sr.ReadLine()) != null)
+          {
+            if (line == string.Empty) continue;
+            FileData.Add(line);
+          }
+        }
+      }
     }
 
     public void Save(Header header, List<Command> commands, List<Note> notes, string musicId, Difficulty difficulty)
     {
       setFileInfo(musicId, difficulty);
+
     }
 
     public Header ParseHeader()
     {
       return null;
+
     }
 
     public List<Note> ParseNotes()
