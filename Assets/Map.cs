@@ -42,6 +42,12 @@ namespace Otoge.Util
     public void Save(Header header, List<Command> commands, List<Note> notes, string musicId, Difficulty difficulty)
     {
       setFileInfo(musicId, difficulty);
+      string TestCode = "00000000";
+      using (FileStream fs = new FileStream(MapFilePath, FileMode.Create))
+      using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
+      {
+        sw.Write(TestCode);
+      }
     }
 
     public Header ParseHeader()
