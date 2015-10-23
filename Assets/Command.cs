@@ -1,4 +1,6 @@
-﻿namespace Otoge.Util
+﻿using System.Collections.Generic;
+
+namespace Otoge.Util
 {
   public class Command
   {
@@ -8,21 +10,9 @@
       public const string MeasureSetter = "01";
     }
 
-    public class BPM
-    {
-      public int Bar;
-      public string Rhythm;
-      public double Value;
-    }
-
-    public class Measure
-    {
-      public int Bar;
-      public string Rhythm;
-      public int Numer;
-      public int Denom;
-    }
-
     public const string MapPrefix = "*";
+
+    public List<BPM> BPMs = new List<BPM>();
+    public List<Measure> Measures = new List<Measure>();
   }
 }
