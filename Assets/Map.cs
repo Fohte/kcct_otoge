@@ -21,22 +21,23 @@ namespace Otoge.Util
     public string MusicId;
     public Difficulty Difficulty;
 
+    List<string> fileData;
+
     public void Load(string musicId, Difficulty difficulty)
     {
-      string line = "";
-      var FileData = new List<string>();
+      string line;
+      fileData = new List<string>();
       setFileInfo(musicId, difficulty);
+
       using (FileStream fs = new FileStream(MapFilePath, FileMode.Open))
+      using (StreamReader sr = new StreamReader(fs, Encoding.UTF8))
       {
-        using (StreamReader sr = new StreamReader(fs, Encoding.UTF8))
+        while ((line = sr.ReadLine()) != null)
         {
-          while ((line = sr.ReadLine()) != null)
-          {
-            if (line == string.Empty) continue;
-            FileData.Add(line);
-          }
+          if (line == string.Empty) continue;
+          fileData.Add(line);
         }
-      }
+      } 
     }
 
     public void Save(Header header, List<Command> commands, List<Note> notes, string musicId, Difficulty difficulty)
