@@ -2,7 +2,7 @@
 {
   public class Header
   {
-    public const string MapPrefix = "#";
+    public const char MapPrefix = '#';
     public string Genre;
     public string Title;
     public string MusicArtist;

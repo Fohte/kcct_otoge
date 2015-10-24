@@ -10,7 +10,7 @@ namespace Otoge.Util
       public const string MeasureSetter = "01";
     }
 
-    public const string MapPrefix = "*";
+    public const char MapPrefix = '*';
 
     public List<BPM> BPMs = new List<BPM>();
     public List<Measure> Measures = new List<Measure>();
