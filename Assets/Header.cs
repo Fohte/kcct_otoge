@@ -10,7 +10,7 @@
     public double BPM;
     public int PlayLevel;
     public Difficulty Difficulty;
-    public string Offset;
+    public double Offset;
     public string MusicFile;
     public string JacketFile;
     public string MovieFile;
