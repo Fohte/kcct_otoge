@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
@@ -103,7 +104,21 @@ namespace Otoge.Util
 
     public List<Note> ParseNotes()
     {
-      return null;
+      var notes = new List<Note>();
+      foreach (string data in fileData)
+      {
+        if (data[0] == Note.MapPrefix)
+        {
+          var note = new Note();
+          note.Bar = int.Parse(data.Substring(1, 3));
+          note.Type = data.Substring(4, 2);
+          note.X = Convert.ToInt32(data.Substring(6, 2), 16);
+          note.Y = Convert.ToInt32(data.Substring(8, 2), 16);
+          note.Rhythm = data.Substring(data.IndexOf(":") + 1);
+          notes.Add(note);
+        }
+      }
+      return notes;
     }
 
     public List<Command> ParseCommands()
