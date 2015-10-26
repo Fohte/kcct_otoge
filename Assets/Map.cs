@@ -53,7 +53,52 @@ namespace Otoge.Util
 
     public Header ParseHeader()
     {
-      return null;
+      var header = new Header();
+      foreach (string data in fileData)
+      {
+        if (data[0] == Header.MapPrefix)
+        {
+          string key = data.Substring(1, data.IndexOf(":") - 1);
+          string value = data.Substring(data.IndexOf(":") + 1);
+          switch (key)
+          {
+            case "genre":
+              header.Genre = value;
+              break;
+            case "title":
+              header.Title = value;
+              break;
+            case "music_artist":
+              header.MusicArtist = value;
+              break;
+            case "map_creator":
+              header.MapCreator = value;
+              break;
+            case "min_bpm":
+              header.MinBPM = double.Parse(value);
+              break;
+            case "max_bpm":
+              header.MaxBPM = double.Parse(value);
+              break;
+            case "play_level":
+              header.PlayLevel = int.Parse(value);
+              break;
+            case "offset":
+              header.Offset = double.Parse(value);
+              break;
+            case "music_file":
+              header.MusicFile = value;
+              break;
+            case "jacket_file":
+              header.JacketFile = value;
+              break;
+            case "movie_file":
+              header.MovieFile = value;
+              break;
+          }
+        }
+      }
+      return header;
     }
 
     public List<Note> ParseNotes()
