@@ -7,7 +7,8 @@
     public string Title;
     public string MusicArtist;
     public string MapCreator;
-    public double BPM;
+    public double MinBPM;
+    public double MaxBPM;
     public int PlayLevel;
     public Difficulty Difficulty;
     public double Offset;
