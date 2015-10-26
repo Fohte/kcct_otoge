@@ -1,6 +1,6 @@
 ﻿namespace Otoge.Util
 {
-  public class BPM : Command
+  public class BPM
   {
     public int Bar;
     public string Rhythm;

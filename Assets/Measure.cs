@@ -1,6 +1,6 @@
 ﻿namespace Otoge.Util
 {
-  public class Measure : Command
+  public class Measure
   {
     public int Bar;
     public string Rhythm;
