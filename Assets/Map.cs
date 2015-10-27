@@ -121,14 +121,13 @@ namespace Otoge.Util
       return notes;
     }
 
-    public List<Command> ParseCommands()
+    public Command ParseCommands()
     {
-      var commands = new List<Command>();
+      var command = new Command();
       foreach (string data in fileData)
       {
         if (data[0] == Command.MapPrefix)
         {
-          var command = new Command();
           int bar = int.Parse(data.Substring(1, 3));
           int firstColon = data.IndexOf(":") + 1;
           int secondColon = data.LastIndexOf(":") - 1;
@@ -156,7 +155,7 @@ namespace Otoge.Util
           }
         }
       }
-      return commands;
+      return command;
     }
 
     void setFileInfo(string musicId, Difficulty difficulty)
