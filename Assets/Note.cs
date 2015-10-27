@@ -24,5 +24,11 @@
     public int Y;
     public string Rhythm;
     public string Type;
+
+    public override string ToString()
+    {
+      return MapPrefix + Bar.ToString("d3")
+        + Type + X.ToString("x2") + Y.ToString("x2") + ":" + Rhythm;
+    }
   }
 }
