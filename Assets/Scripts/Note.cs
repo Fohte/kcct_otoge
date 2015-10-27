@@ -15,7 +15,7 @@ public class Note : MonoBehaviour
 
   }
 
-  public static void SetNoteParBeat(float X,float Y)
+  public static void CreateNote(float X,float Y)
   {
     GameObject note = (GameObject)Resources.Load("Prefabs/Temporary Note");
     Instantiate(note, new Vector3(X, Y, 0), Quaternion.identity);

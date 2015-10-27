@@ -51,7 +51,7 @@ public class MusicPlayController : MonoBehaviour
       timing = Music.IsJustChangedAt(bar: bar[barNumber], beat: beat[barNumber], unit: unit[barNumber]);
       if (timing)
       {
-        Note.SetNoteParBeat(X,Y); //デバッグ用に適当な変数を入れているが、本来は譜面フォーマットに入っている座標情報を解析して引数に入れる。
+        Note.CreateNote(X,Y); //デバッグ用に適当な変数を入れているが、本来は譜面フォーマットに入っている座標情報を解析して引数に入れる。
         X += 0.5f; //これもデバッグ用。オブジェクトを出す位置をずらして確認しやすくするため。
       }
     }
