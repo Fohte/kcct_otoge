@@ -123,7 +123,40 @@ namespace Otoge.Util
 
     public List<Command> ParseCommands()
     {
-      return null;
+      var commands = new List<Command>();
+      foreach (string data in fileData)
+      {
+        if (data[0] == Command.MapPrefix)
+        {
+          var command = new Command();
+          int bar = int.Parse(data.Substring(1, 3));
+          int firstColon = data.IndexOf(":") + 1;
+          int secondColon = data.LastIndexOf(":") - 1;
+          string rhythm = data.Substring(data.LastIndexOf(":") + 1);
+          string commandType = data.Substring(4, 2);
+          switch (commandType)
+          {
+            case Command.Channel.BPMSetter:
+              var bpm = new BPM();
+              bpm.Bar = bar;
+              bpm.Rhythm = rhythm;
+              bpm.Value = double.Parse(data.Substring(firstColon, 3));
+              command.BPMs.Add(bpm);
+              break;
+            case Command.Channel.MeasureSetter:
+              var measure = new Measure();
+              int numerIndex = data.IndexOf("/") - firstColon;
+              int denomIndex = secondColon - data.IndexOf("/");
+              measure.Bar = bar;
+              measure.Rhythm = rhythm;
+              measure.Numer = int.Parse(data.Substring(firstColon, numerIndex));
+              measure.Denom = int.Parse(data.Substring(data.IndexOf("/") + 1, denomIndex));
+              command.Measures.Add(measure);
+              break;
+          }
+        }
+      }
+      return commands;
     }
 
     void setFileInfo(string musicId, Difficulty difficulty)
