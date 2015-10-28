@@ -4,20 +4,19 @@ using System.Collections.Generic;
 
 public class MusicPlayController : MonoBehaviour
 {
+  public static double elapsedTime = 0;
   int startBar;
-  int barNumber = 0, musicalNoteNumber = 0, a = 0;
-  float X = 0, Y = 0;
-  double elapsedTime = 0;
+  int barNumber = 0, musicalNoteNumber = 0, a = 0, b = 0;
+  float X = 0, Y = 0;  
   double elapsedTimeUpToThisBar = 0;
-  double noteTapTimingSecond = 0;
-  bool noteTapTiming;
   public static List<bool> createNoteThisTiming = new List<bool>();
   List<int> bars = new List<int>();
   List<int> beats = new List<int>();
   List<int> units = new List<int>();
   List<int> tempos = new List<int>();
   List<double> mtPerSeconds = new List<double>();
-  List<double> noteCreateTiming = new List<double>();
+  List<double> noteCreateTimings = new List<double>();
+  List<double> noteTapTimings = new List<double>();
   List<string> rhythms = new List<string>()
   {
     "000000000000100000100000",
@@ -53,30 +52,40 @@ public class MusicPlayController : MonoBehaviour
           bars.Add(barNumber);
           beats.Add(musicalNoteNumber / (unitPerBeat));
           units.Add(musicalNoteNumber % (unitPerBeat));
-          noteTapTimingSecond = (beats[beats.Count - 1] * unitPerBeat + units[units.Count - 1]) / mtPerSeconds[barNumber] + elapsedTimeUpToThisBar;
-          noteCreateTiming.Add(noteTapTimingSecond - 1); //1は適当に置いてるだけの数字。たたく何秒前にノーツを表示させたいかを入れる。
+          noteTapTimings.Add((beats[beats.Count - 1] * unitPerBeat + units[units.Count - 1]) / mtPerSeconds[barNumber] + elapsedTimeUpToThisBar);
+          noteCreateTimings.Add(noteTapTimings[noteTapTimings.Count - 1] - 1); //1は適当に置いてるだけの数字。たたく何秒前にノーツを表示させたいかを入れる。
           Debug.Log(bars[bars.Count - 1] + " " + beats[beats.Count - 1] + " " + units[units.Count - 1]);
-          Debug.Log("ノーツをたたくのは" + noteTapTimingSecond + "秒");
+          Debug.Log("ノーツをたたくのは" + noteTapTimings[noteTapTimings.Count - 1] + "秒");
         }
       }
       elapsedTimeUpToThisBar = elapsedTimeUpToThisBar + (rhythms[barNumber].Length / mtPerSeconds[barNumber]);
       Debug.Log("ここまでの小節で経過した時間は" + elapsedTimeUpToThisBar);
     }
-
+    barNumber = 0;
+    a = 0;
     Music.Play(name, "Section0");
   }
 
   void Update()
   {
     elapsedTime = elapsedTime + Time.deltaTime;
-    if (a < noteCreateTiming.Count)
+    if (a < noteCreateTimings.Count)
     {
-      if (elapsedTime >= noteCreateTiming[a])
+      if (elapsedTime >= noteCreateTimings[a])
       {
-        Note.CreateNote(X, Y); //デバッグ用に適当な変数を入れているが、本来は譜面情報に入っている座標を解析して引数に入れる。
+        Note.CreateNote(X, Y, noteTapTimings[a]); //デバッグ用に適当な変数を入れているが、本来は譜面情報に入っている座標を解析して引数に入れる。
         Debug.Log("ノーツを表示したのは" + elapsedTime + "秒");
         X += 1; //これもデバッグ用。オブジェクトを出す位置をずらして確認しやすくするため。
         a++;
+      }
+    }
+
+    if (b < noteTapTimings.Count)
+    {
+      if (elapsedTime >= noteTapTimings[b])
+      {
+        Debug.Log("ノーツがたたかれた時間は" + elapsedTime);
+        b++;
       }
     }
   }
