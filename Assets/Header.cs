@@ -34,7 +34,7 @@
       }
       if (MusicArtist != null)
       {
-        str += MapPrefix + "music_srtist:" + MusicArtist + "\n";
+        str += MapPrefix + "music_artist:" + MusicArtist + "\n";
       }
       if (MapCreator != null)
       {
