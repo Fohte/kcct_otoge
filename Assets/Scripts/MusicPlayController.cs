@@ -5,54 +5,78 @@ using System.Collections.Generic;
 public class MusicPlayController : MonoBehaviour
 {
   int startBar;
+  int barNumber = 0, musicalNoteNumber = 0, a = 0;
+  float X = 0, Y = 0;
+  double elapsedTime = 0;
+  double elapsedTimeUpToThisBar = 0;
+  double noteTapTimingSecond = 0;
+  bool noteTapTiming;
   public static List<bool> createNoteThisTiming = new List<bool>();
+  List<int> bars = new List<int>();
+  List<int> beats = new List<int>();
+  List<int> units = new List<int>();
+  List<int> tempos = new List<int>();
+  List<double> mtPerSeconds = new List<double>();
+  List<double> noteCreateTiming = new List<double>();
   List<string> rhythms = new List<string>()
   {
-    "100100100100100100101010" //"11111100" + "000000000111"                     
+    "000000000000100000100000",
+    "000000000000100000100000" //"11111100" + "000000000111"                     
   };
-
-  int barNumber = 0, musicalNoteNumber = 0;
-  float X = 0,Y = 0;
-  bool timing;
-  List<int> bar = new List<int>();
-  List<int> beat = new List<int>();
-  List<int> unit = new List<int>();
 
   void Start()
   {
+    
+
     Music music = GameObject.Find("music").AddComponent<Music>();
     music.DebugText = GameObject.Find("status").GetComponent<TextMesh>();
     music.Sections = new List<Music.Section>();
 
     for (barNumber = 0; barNumber < rhythms.Count; barNumber++)
     {
-      int UnitPerBeat = rhythms[barNumber].Length / 4;
-      int UnitPerBar = rhythms[barNumber].Length;
+      int unitPerBar = rhythms[barNumber].Length;
+      int unitPerBeat = rhythms[barNumber].Length / 4;
 
-      music.Sections.Add(new Music.Section(startBar: barNumber, mtBeat: UnitPerBeat, mtBar: UnitPerBar, tempo: 120));
+      //Sectionを作る部分。実際はBPMとかが変化したときにSectionを追加作成するようにする。BPMも実際は譜面情報からBPMを読み取って入れる。
+      tempos.Add(60 * (barNumber + 1));
+      music.Sections.Add(new Music.Section(startBar: barNumber, mtBeat: unitPerBeat, mtBar: unitPerBar, tempo: tempos[tempos.Count - 1]));
       music.Sections[barNumber].Name = "Section" + barNumber;
       music.OnVal();
+      mtPerSeconds.Add(unitPerBeat * tempos[tempos.Count - 1] / 60); //1分は60秒。unitPerBeatにBPMを掛け算することで1分当たりのmtが出るのでそれを1秒あたりに変えるために60で割る。 
+      Debug.Log(mtPerSeconds[barNumber]);
+
+      //Temporary Noteを作るタイミングを決める部分。
       for (musicalNoteNumber = 0; musicalNoteNumber < rhythms[barNumber].Length; musicalNoteNumber++)
       {
         if (rhythms[barNumber][musicalNoteNumber] == '1')
         {
-          bar.Add(barNumber);
-          beat.Add(musicalNoteNumber / (UnitPerBeat));
-          unit.Add(musicalNoteNumber % (UnitPerBeat));
+          bars.Add(barNumber);
+          beats.Add(musicalNoteNumber / (unitPerBeat));
+          units.Add(musicalNoteNumber % (unitPerBeat));
+          noteTapTimingSecond = (beats[beats.Count - 1] * unitPerBeat + units[units.Count - 1]) / mtPerSeconds[barNumber] + elapsedTimeUpToThisBar;
+          noteCreateTiming.Add(noteTapTimingSecond - 1); //1は適当に置いてるだけの数字。たたく何秒前にノーツを表示させたいかを入れる。
+          Debug.Log(bars[bars.Count - 1] + " " + beats[beats.Count - 1] + " " + units[units.Count - 1]);
+          Debug.Log("ノーツをたたくのは" + noteTapTimingSecond + "秒");
         }
       }
+      elapsedTimeUpToThisBar = elapsedTimeUpToThisBar + (rhythms[barNumber].Length / mtPerSeconds[barNumber]);
+      Debug.Log("ここまでの小節で経過した時間は" + elapsedTimeUpToThisBar);
     }
+
     Music.Play(name, "Section0");
   }
+
   void Update()
   {
-    for (barNumber = 0; barNumber < bar.Count; barNumber++)
+    elapsedTime = elapsedTime + Time.deltaTime;
+    if (a < noteCreateTiming.Count)
     {
-      timing = Music.IsJustChangedAt(bar: bar[barNumber], beat: beat[barNumber], unit: unit[barNumber]);
-      if (timing)
+      if (elapsedTime >= noteCreateTiming[a])
       {
-        Note.CreateNote(X,Y); //デバッグ用に適当な変数を入れているが、本来は譜面フォーマットに入っている座標情報を解析して引数に入れる。
-        X += 0.5f; //これもデバッグ用。オブジェクトを出す位置をずらして確認しやすくするため。
+        Note.CreateNote(X, Y); //デバッグ用に適当な変数を入れているが、本来は譜面情報に入っている座標を解析して引数に入れる。
+        Debug.Log("ノーツを表示したのは" + elapsedTime + "秒");
+        X += 1; //これもデバッグ用。オブジェクトを出す位置をずらして確認しやすくするため。
+        a++;
       }
     }
   }

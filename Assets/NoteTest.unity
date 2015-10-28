@@ -207,9 +207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f090f911a28cff74dbb8d49c6621cc03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  X: 0
-  Y: 0
-  Bar: 0
   Rhythm: 
 --- !u!1 &1662444720
 GameObject:
