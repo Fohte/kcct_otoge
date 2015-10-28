@@ -149,27 +149,28 @@ namespace Otoge.Util
         if (data[0] == Command.MapPrefix)
         {
           int bar = int.Parse(data.Substring(1, 3));
-          int firstColon = data.IndexOf(":") + 1;
-          int secondColon = data.LastIndexOf(":") - 1;
+          int firstColon = data.IndexOf(":");
+          int secondColon = data.LastIndexOf(":");
           string rhythm = data.Substring(data.LastIndexOf(":") + 1);
           string commandType = data.Substring(4, 2);
           switch (commandType)
           {
             case Command.Channel.BPMSetter:
               var bpm = new BPM();
+              int valueLength = (secondColon - 1) - firstColon;
               bpm.Bar = bar;
               bpm.Rhythm = rhythm;
-              bpm.Value = double.Parse(data.Substring(firstColon, 3));
+              bpm.Value = double.Parse(data.Substring(firstColon + 1, valueLength));
               command.BPMs.Add(bpm);
               break;
             case Command.Channel.MeasureSetter:
               var measure = new Measure();
-              int numerIndex = data.IndexOf("/") - firstColon;
-              int denomIndex = secondColon - data.IndexOf("/");
+              int numerLength = (data.IndexOf("/")- 1) - firstColon ;
+              int denomLength = (secondColon - 1) - data.IndexOf("/");
               measure.Bar = bar;
               measure.Rhythm = rhythm;
-              measure.Numer = int.Parse(data.Substring(firstColon, numerIndex));
-              measure.Denom = int.Parse(data.Substring(data.IndexOf("/") + 1, denomIndex));
+              measure.Numer = int.Parse(data.Substring(firstColon + 1, numerLength));
+              measure.Denom = int.Parse(data.Substring(data.IndexOf("/") + 1, denomLength));
               command.Measures.Add(measure);
               break;
           }
