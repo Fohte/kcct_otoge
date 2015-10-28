@@ -21,8 +21,21 @@ namespace Otoge.Util
     public string MapFilePath;
     public string MusicId;
     public Difficulty Difficulty;
+    public Header Header;
+    public Command Command;
+    public List<Note> Notes;
 
     List<string> fileData;
+
+    public Map()
+    {
+
+    }
+
+    public Map(string musicId, Difficulty difficulty)
+    {
+      Load(musicId, difficulty);
+    }
 
     public void Load(string musicId, Difficulty difficulty)
     {
@@ -38,7 +51,10 @@ namespace Otoge.Util
           if (line == string.Empty) continue;
           fileData.Add(line);
         }
-      } 
+      }
+      Header = parseHeader();
+      Notes = parseNotes();
+      Command = parseCommand(); 
     }
 
     public void Save(Header header, List<Command> commands, List<Note> notes, string musicId, Difficulty difficulty)
@@ -52,7 +68,7 @@ namespace Otoge.Util
       }
     }
 
-    public Header ParseHeader()
+    Header parseHeader()
     {
       var header = new Header();
       foreach (string data in fileData)
@@ -102,7 +118,7 @@ namespace Otoge.Util
       return header;
     }
 
-    public List<Note> ParseNotes()
+    List<Note> parseNotes()
     {
       var notes = new List<Note>();
       foreach (string data in fileData)
@@ -121,7 +137,7 @@ namespace Otoge.Util
       return notes;
     }
 
-    public Command ParseCommands()
+    Command parseCommand()
     {
       var command = new Command();
       foreach (string data in fileData)
