@@ -19,6 +19,8 @@ namespace Otoge.Util
     public const string Extension = "otm";
     public readonly string DirPath = Application.dataPath + "/maps/";
     public string MapFilePath;
+    public string JacketFilePath;
+    public string MusicFilePath;
     public string MusicId;
     public Difficulty Difficulty;
     public Header Header;
@@ -54,8 +56,10 @@ namespace Otoge.Util
       }
       Header = parseHeader();
       Notes = parseNotes();
-      Command = parseCommand(); 
-    }
+      Command = parseCommand();
+      this.JacketFilePath = Application.dataPath + "/Jackets/" + Header.JacketFile;
+      this.MusicFilePath = Application.dataPath + "/Musics/" + Header.MusicFile;
+  }
 
     public void Save(Header header, Command command, List<Note> notes, string musicId, Difficulty difficulty)
     {
