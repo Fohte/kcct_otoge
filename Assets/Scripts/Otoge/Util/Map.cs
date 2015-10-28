@@ -54,8 +54,10 @@ namespace Otoge.Util
       }
       Header = parseHeader();
       Notes = parseNotes();
-      Command = parseCommand(); 
-    }
+      Command = parseCommand();
+      string JacketFilePath = Application.dataPath + "/Jackets/" + Header.JacketFile;
+      string MusicFilePath = Application.dataPath + "/Musics/" + Header.MusicFile;
+  }
 
     public void Save(Header header, Command command, List<Note> notes, string musicId, Difficulty difficulty)
     {
