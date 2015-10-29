@@ -8,7 +8,7 @@ public class TitleButton : MonoBehaviour
     Button button = this.GetComponent<Button>();
     button.onClick.AddListener(() =>
     {
-      Debug.Log("Clicked");
+      Application.LoadLevel("MusicList");
     });
   }
 }
