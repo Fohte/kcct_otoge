@@ -30,5 +30,21 @@
       return MapPrefix + Bar.ToString("d3")
         + Type + X.ToString("x2") + Y.ToString("x2") + ":" + Rhythm;
     }
+
+    public void ZeroPadding()
+    {
+      string str = "";
+      string zero = "";
+
+      for (int i = 1; i < (48 / Rhythm.Length); i++)
+      {
+        zero += "0";
+      }
+      foreach (char rhythm in Rhythm)
+      {
+        str += rhythm + zero;
+      }
+      Rhythm = str;
+    }
   }
 }
