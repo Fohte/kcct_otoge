@@ -13,7 +13,7 @@ GameObject:
   - 23: {fileID: 2354936}
   - 114: {fileID: 11437782}
   m_Layer: 0
-  m_Name: Temporary Note
+  m_Name: note6
   m_TagString: Created
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

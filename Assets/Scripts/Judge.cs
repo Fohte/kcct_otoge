@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Judge : MonoBehaviour {
-  public double exactTapTiming;
-  double actuallyTapTiming;
+public class Judge : MonoBehaviour
+{
+  public double exactTapTiming; //単位は秒
+  double actualTapTiming; //単位は秒
 
   void Start ()
   {
-	  
-	}
+    
+  }
 	
 	void Update ()
   {
@@ -22,10 +23,8 @@ public class Judge : MonoBehaviour {
 
   void JudgeTiming()
   {
-    double actuallyTapTiming = MusicPlayController.elapsedTime;
-    Debug.Log("このノートが叩かれるべきタイミングは" + exactTapTiming + "秒");
-    Debug.Log("実際に叩かれたのは" + actuallyTapTiming + "秒");
-    Debug.Log("その差は" + System.Math.Abs(exactTapTiming - actuallyTapTiming) * 1000 + "ミリ秒");
+    actualTapTiming = MusicPlayController.elapsedTime;
+    double difference = System.Math.Abs(exactTapTiming - actualTapTiming) * 1000; //単位はミリ秒。この差がどれぐらいかによって判定する(?)
     Destroy(gameObject);
   }
 }

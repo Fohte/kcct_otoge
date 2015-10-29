@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Note : MonoBehaviour
+public class NoteManager : MonoBehaviour
 {
-  public string Rhythm;
+  public static int noteNumber = 0;
 
   void Start()
   {
-   
+    
   }
 
   void Update()
@@ -19,6 +19,8 @@ public class Note : MonoBehaviour
   {
     GameObject note = (GameObject)Resources.Load("Prefabs/Temporary Note");
     note.GetComponent<Judge>().exactTapTiming = timing;
+    note.name = "note" + noteNumber;
     Instantiate(note, new Vector3(X, Y, 0), Quaternion.identity);
+    noteNumber++;
   }
 }
