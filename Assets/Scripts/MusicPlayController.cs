@@ -59,7 +59,7 @@ public class MusicPlayController : MonoBehaviour
           beat = (bbb / (UnitPerBeat));
           unit = (bbb % (UnitPerBeat));
           noteTapTimings.Add((beat * UnitPerBeat + unit) / mtPerSecond + elapsedTimeUpToThisBar); //単位は秒。
-          noteCreateTimings.Add(noteTapTimings[noteTapTimings.Count - 1] ); //1は適当に置いてるだけの数字。たたく何秒前にノーツを表示させたいかを入れる。
+          noteCreateTimings.Add(noteTapTimings[noteTapTimings.Count - 1] - 1 ); //1は適当に置いてるだけの数字。たたく何秒前にノーツを表示させたいかを入れる。
           posX.Add(map.Notes[aaa].X);
           posY.Add(map.Notes[aaa].Y);
         }
