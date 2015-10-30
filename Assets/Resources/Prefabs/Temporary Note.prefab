@@ -13,7 +13,7 @@ GameObject:
   - 23: {fileID: 2354936}
   - 114: {fileID: 11437782}
   m_Layer: 0
-  m_Name: note6
+  m_Name: note15
   m_TagString: Created
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,7 +85,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d2473c18f5c674bb369d13688024ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exactTapTiming: 5.5
+  ExactTapTiming: 3.75
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -1,74 +1,120 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Otoge.Util;
+
+//TODO aaa,bbb,ccc,ddd などの適当な変数名を直す
 
 public class MusicPlayController : MonoBehaviour
 {
-  public static double elapsedTime = 0;
-  int startBar;
-  int barNumber = 0, musicalNoteNumber = 0, a = 0;
-  float X = 0, Y = 0;  
-  List<int> bars = new List<int>();
-  List<int> beats = new List<int>();
-  List<int> units = new List<int>();
-  List<int> tempos = new List<int>();
-  List<double> mtPerSeconds = new List<double>();
+  public const int UnitPerBar = 16;  //デバッグ用。実際は音符の混合と拍子の変化がないことから、unitPerBarは48、unitPerBeatは12。
+  public const int UnitPerBeat = 4;
+  public static double ElapsedTime = 0;
+  int ddd = 0;
+  int bar = 0;
+  int beat = 0;
+  int unit = 0;
+  int lastBar = 1000;
+  double lastElapsedTimeUpToThisBar = 0;
+  double mtPerSecond = 0;
+  double currentBPM = 0;
+  List<float> posX = new List<float>();
+  List<float> posY = new List<float>();
   List<double> noteCreateTimings = new List<double>();
   List<double> noteTapTimings = new List<double>();
-  List<string> rhythms = new List<string>()
-  {
-    "000000000000100100100000",// "00001110"
-    "100100100100100100101010" //"11111100" + "000000000111"                     
-  };
-
+  
   void Start()
   {
+    var map = new Map("1", Difficulty.Easy);
     double elapsedTimeUpToThisBar = 0;
     Music music = GameObject.Find("music").AddComponent<Music>();
     music.DebugText = GameObject.Find("status").GetComponent<TextMesh>();
     music.Sections = new List<Music.Section>();
 
-    for (barNumber = 0; barNumber < rhythms.Count; barNumber++)
+    //Sectionを作成する部分。
+    for (int BPMChangeNumber = 0; BPMChangeNumber < map.Command.BPMs.Count; BPMChangeNumber++)
     {
-      int unitPerBar = rhythms[barNumber].Length;
-      int unitPerBeat = rhythms[barNumber].Length / 4;
+      int startBar = map.Command.BPMs[BPMChangeNumber].Bar;
+      double tempo = map.Command.BPMs[BPMChangeNumber].Value;
 
-      //Sectionを作る部分。実際はBPMとかが変化したときにSectionを追加作成するようにする。BPMも実際は譜面情報からBPMを読み取って入れる。
-      tempos.Add(60 * (barNumber + 1));
-      music.Sections.Add(new Music.Section(startBar: barNumber, mtBeat: unitPerBeat, mtBar: unitPerBar, tempo: tempos[tempos.Count - 1]));
-      music.Sections[barNumber].Name = "Section" + barNumber;
+      music.Sections.Add(new Music.Section(startBar: startBar, mtBeat: UnitPerBeat, mtBar: UnitPerBar, tempo: tempo));
+      music.Sections[BPMChangeNumber].Name = "Section" + BPMChangeNumber;
       music.OnVal();
-      mtPerSeconds.Add(unitPerBeat * tempos[tempos.Count - 1] / 60); //1分は60秒。unitPerBeatにBPMを掛け算することで1分当たりのmtが出るのでそれを1秒あたりに変えるために60で割る。 
+    }
 
-      //Temporary Noteを作るタイミングを決める部分。
-      for (musicalNoteNumber = 0; musicalNoteNumber < rhythms[barNumber].Length; musicalNoteNumber++)
+    //ノートを置くタイミングと座標を決める部分。
+    for (int aaa = 0; aaa < map.Notes.Count; aaa++)
+    {
+      currentBPM = GetCurrentBPM(aaa);
+      mtPerSecond = UnitPerBeat * (currentBPM / 60);
+      bar = (map.Notes[aaa].Bar);
+      if (bar == lastBar)
       {
-        if (rhythms[barNumber][musicalNoteNumber] == '1')
+        elapsedTimeUpToThisBar = lastElapsedTimeUpToThisBar;
+      }
+      for (int bbb = 0; bbb < map.Notes[aaa].Rhythm.Length; bbb++)
+      {
+        if (map.Notes[aaa].Rhythm[bbb] == '1')
         {
-          bars.Add(barNumber);
-          beats.Add(musicalNoteNumber / (unitPerBeat));
-          units.Add(musicalNoteNumber % (unitPerBeat));
-          noteTapTimings.Add((beats[beats.Count - 1] * unitPerBeat + units[units.Count - 1]) / mtPerSeconds[barNumber] + elapsedTimeUpToThisBar);
-          noteCreateTimings.Add(noteTapTimings[noteTapTimings.Count - 1]); //1は適当に置いてるだけの数字。たたく何秒前にノーツを表示させたいかを入れる。
+          beat = (bbb / (UnitPerBeat));
+          unit = (bbb % (UnitPerBeat));
+          noteTapTimings.Add((beat * UnitPerBeat + unit) / mtPerSecond + elapsedTimeUpToThisBar); //単位は秒。
+          noteCreateTimings.Add(noteTapTimings[noteTapTimings.Count - 1] - 1 ); //1は適当に置いてるだけの数字。たたく何秒前にノーツを表示させたいかを入れる。
+          posX.Add(map.Notes[aaa].X);
+          posY.Add(map.Notes[aaa].Y);
         }
       }
-      elapsedTimeUpToThisBar = elapsedTimeUpToThisBar + (rhythms[barNumber].Length / mtPerSeconds[barNumber]);
+      lastElapsedTimeUpToThisBar = elapsedTimeUpToThisBar;
+      elapsedTimeUpToThisBar += (map.Notes[aaa].Rhythm.Length / mtPerSecond);
+      lastBar = bar;
     }
-    barNumber = 0;
     Music.Play(name, "Section0");
   }
 
   void Update()
   {
-    elapsedTime = elapsedTime + Time.deltaTime;
-    if (a < noteCreateTimings.Count)
+    var map = new Map("1", Difficulty.Easy);
+    ElapsedTime += Time.deltaTime;
+    if (ddd < noteCreateTimings.Count)
     {
-      if (elapsedTime >= noteCreateTimings[a])
+      if (ElapsedTime >= noteCreateTimings[ddd])
       {
-        NoteManager.CreateNote(X, Y, noteTapTimings[a]); //デバッグ用に適当な変数を入れているが、本来は譜面情報に入っている座標を解析して引数に入れる。
-        X += 1; //これもデバッグ用。オブジェクトを出す位置をずらして確認しやすくするため。
-        a++;
+        for (int eee = ddd + 1; eee < ddd + (UnitPerBar * 1); eee++) //いくつまでノートを同時に押したいかによってここの1という数字は変わる
+        {
+          if (eee < noteCreateTimings.Count)
+          {
+            if (noteCreateTimings[eee] == noteCreateTimings[ddd])
+            {   
+              NoteManager.CreateNote(posX[eee], posY[eee], noteTapTimings[eee]);
+              noteCreateTimings.RemoveAt(eee);
+              noteTapTimings.RemoveAt(eee);
+              posX.RemoveAt(eee);
+              posY.RemoveAt(eee);
+            }
+          }
+        }
+        NoteManager.CreateNote(posX[ddd],posY[ddd], noteTapTimings[ddd]);
+        ddd++;
       }
     }
+  }
+
+  double GetCurrentBPM(int Bar)
+  {
+    var map = new Map("1", Difficulty.Easy);
+    int currentBar = map.Notes[Bar].Bar;
+    for (int ccc = 0; ccc < map.Command.BPMs.Count; ccc++)
+    {
+      if (currentBar < map.Command.BPMs[ccc].Bar)
+      {
+        currentBPM = map.Command.BPMs[ccc - 1].Value;
+        break;
+      }else if (currentBar == map.Command.BPMs[ccc].Bar)
+        {
+          currentBPM = map.Command.BPMs[ccc].Value;
+          break;
+        }
+    }
+    return currentBPM;
   }
 }
