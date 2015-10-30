@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     title.text = map.Header.Title;
     difficulty.text = map.Difficulty.ToString().ToUpper();
-    
+
     Image image = GameObject.Find("Image").gameObject.GetComponent<Image>();
     image.sprite = Resources.Load<Sprite>("Jackets/" + map.Header.JacketFile);
   }
