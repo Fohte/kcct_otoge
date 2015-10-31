@@ -4,42 +4,50 @@ using Otoge.Util;
 
 public class JudgeManager : MonoBehaviour
 {
-  public double exactTapTiming; //単位は秒
+  
+
+  public double ExactTapTiming = 2; //単位は秒
   double actualTapTiming; //単位は秒
+  public static Judge judge;
 
   void Start ()
   {
-    
+    Destroy(gameObject, 1);
   }
-	
-	void Update ()
+
+  void Update ()
   {
     
 	}
 
-  void OnMouseDown() //PCでのデバッグ用にクリックに反応するようにしているが、、実際にはタッチやフリックで反応するようにする。
+  public void OnMouseDown() //PCでのデバッグ用にクリックに反応するようにしているが、、実際にはタッチやフリックで反応するようにする。
   {
-    JudgeTiming();
+    judge = JudgeTiming();
+    Debug.Log(judge);
+    if (judge != Judge.Miss)
+    {
+     Destroy(gameObject);
+    }
+    MusicPlayController.comboAndScoreUpdate();
   }
 
   public Judge JudgeTiming()
   {
     actualTapTiming = MusicPlayController.ElapsedTime;
-    double difference = System.Math.Abs(exactTapTiming - actualTapTiming) * 1000; //単位はミリ秒。この差がどれぐらいかによって判定する(?)
-    Destroy(gameObject);
-    if (difference <= 21)
+    double difference = System.Math.Abs(ExactTapTiming - actualTapTiming) * 1000; //単位はミリ秒。この差がどれぐらいかによって判定する(?)
+    if (difference <= 42)
     {
       return Judge.Perfect;
     }
-    else if (difference <= 42)
+    else if (difference <= 92)
     {
       return Judge.Great;
     }
-    else if (difference <= 84)
+    else if (difference <= 166)
     {
       return Judge.Good;
     }
-    else if (difference <= 250)
+    else if (difference <= 500)
     {
       return Judge.Bad;
     }
