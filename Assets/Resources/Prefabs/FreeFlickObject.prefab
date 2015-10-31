@@ -44,7 +44,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 22498454}
-  - 114: {fileID: 11471386}
+  - 114: {fileID: 11405228}
   m_Layer: 0
   m_Name: FreeFlickObject
   m_TagString: FreeFlick
@@ -82,6 +82,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11405228
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 171120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38c54713b5cf486e99ec84ab93d9a97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11466148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -136,17 +147,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11471386
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 171120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6084c9865161f4a31b8aeb332f3ef891, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &22221196
 CanvasRenderer:
   m_ObjectHideFlags: 1

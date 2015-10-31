@@ -8,7 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 22462208}
-  - 114: {fileID: 11442806}
+  - 114: {fileID: 11430126}
   m_Layer: 0
   m_Name: HoldObject
   m_TagString: Hold
@@ -109,6 +109,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11430126
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 131994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38c54713b5cf486e99ec84ab93d9a97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11431008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -136,17 +147,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11442806
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 131994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a93715c012654c50a7be5060f2b1b98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &22217592
 CanvasRenderer:
   m_ObjectHideFlags: 1

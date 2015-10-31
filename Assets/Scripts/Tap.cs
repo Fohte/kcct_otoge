@@ -3,6 +3,8 @@
 public class Tap : MonoBehaviour
 {
   GameObject note;
+  int fingerId;
+
   void Start()
   {
     foreach (Transform child in transform)
@@ -16,13 +18,25 @@ public class Tap : MonoBehaviour
 
   public bool IsJustTouched()
   {
-    if (Input.GetMouseButtonDown(0))
+    if (Input.touchCount == 0)
+      return false;
+    
+    for (int i = 0; i < Input.touchCount; i++)
     {
-      var position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-      var collider = Physics2D.OverlapPoint(position);
+      Touch touch = Input.touches[i];
+      if (touch.phase != TouchPhase.Began)
+        continue;
+      
+      var position = Camera.main.ScreenToWorldPoint(touch.position);
+      var colliders = Physics2D.OverlapPointAll(position);
 
-      return collider ? true : false;
+      foreach (var collider in colliders)
+      {
+        if (note.GetInstanceID() == collider.gameObject.GetInstanceID())
+          return true;
+      }
     }
+
     return false;
   }
 }
