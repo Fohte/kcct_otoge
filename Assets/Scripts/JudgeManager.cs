@@ -4,29 +4,52 @@ using Otoge.Util;
 
 public class JudgeManager : MonoBehaviour
 {
-  
-
   public double ExactTapTiming = 2; //単位は秒
   double actualTapTiming; //単位は秒
-  public static Judge judge;
+  public static Judge judge = Judge.Miss;
 
-  void Start ()
+  NoteTouchManager noteTouchManager;
+
+  void Start()
   {
     Destroy(gameObject, 1);
   }
 
-  void Update ()
+  void Update()
   {
-    
-	}
+    var notes = GameObject.FindGameObjectsWithTag("Note");
 
-  public void OnMouseDown() //PCでのデバッグ用にクリックに反応するようにしているが、、実際にはタッチやフリックで反応するようにする。
-  {
-    judge = JudgeTiming();
-    Debug.Log(judge);
-    if (judge != Judge.Miss)
+    foreach (var note in notes)
     {
-     Destroy(gameObject);
+      var parent = note.transform.parent.gameObject;
+      noteTouchManager = parent.GetComponent<NoteTouchManager>();
+
+      switch (parent.transform.tag)
+      {
+        case "Tap":
+          if (!noteTouchManager.IsJustTouched())
+            return;
+          break;
+        case "Flick":
+          if (!noteTouchManager.IsFlicked())
+            return;
+          break;
+        case "FreeFlick":
+          if (!noteTouchManager.IsFlicked())
+            return;
+          break;
+        case "Hold":
+          break;
+      }
+
+      judge = JudgeTiming();
+
+      if (judge != Judge.Miss && !GameObject.Find(judge.ToString()))
+      {
+        var judgeObject = Instantiate(Resources.Load("Prefabs/" + judge.ToString())) as GameObject;
+        judgeObject.transform.SetParent(parent.transform);
+        Destroy(judgeObject, 1);
+      }
     }
     MusicPlayController.comboAndScoreUpdate();
   }
