@@ -6,7 +6,7 @@ public class JudgeManager : MonoBehaviour
 {
   
 
-  public double ExactTapTiming = 2; //単位は秒
+  public double ExactTapTiming = 0; //単位は秒
   double actualTapTiming; //単位は秒
   public static Judge judge;
 

@@ -8,8 +8,8 @@ using Otoge.Util;
 
 public class MusicPlayController : MonoBehaviour
 {
-  public const int UnitPerBar = 16;  //デバッグ用。実際は音符の混合と拍子の変化がないことから、unitPerBarは48、unitPerBeatは12。
-  public const int UnitPerBeat = 4;
+  public const int UnitPerBar = 48;  //デバッグ用。実際は音符の混合と拍子の変化がないことから、unitPerBarは48、unitPerBeatは12。
+  public const int UnitPerBeat = 12;
 
   const double MaxScore = 1000000;
   const double Perfect = 1.0;
@@ -37,19 +37,19 @@ public class MusicPlayController : MonoBehaviour
   double lastElapsedTimeUpToThisBar = 0;
   double mtPerSecond = 0;
   double currentBPM = 0;
+  double finalNoteCreateTiming;
   List<float> posX = new List<float>();
   List<float> posY = new List<float>();
   List<double> noteCreateTimings = new List<double>();
   List<double> noteTapTimings = new List<double>();
-
-  public TextMesh comboAndScoreText;
+  List<string> kindOfNote = new List<string>();
 
   void Start()
   {
-    var map = new Map("1", Difficulty.Easy);
+    ElapsedTime = 0;
+    var map = new Map("1", Difficulty.Hard);
     double elapsedTimeUpToThisBar = 0;
     Music music = GameObject.Find("Music").AddComponent<Music>();
-    music.DebugText = GameObject.Find("Status").GetComponent<TextMesh>();
     music.Sections = new List<Music.Section>();
 
     //Sectionを作成する部分。
@@ -83,6 +83,12 @@ public class MusicPlayController : MonoBehaviour
           noteCreateTimings.Add(noteTapTimings[noteTapTimings.Count - 1] - 0.5 ); //0.5は適当に置いてるだけの数字。たたく何秒前にノーツを表示させたいかを入れる。
           posX.Add(map.Notes[aaa].X);
           posY.Add(map.Notes[aaa].Y);
+          kindOfNote.Add(map.Notes[aaa].Type);
+          Debug.Log(noteCreateTimings[noteCreateTimings.Count - 1]);
+          Debug.Log(posX[posX.Count - 1]);
+          Debug.Log(posY[posY.Count - 1]);
+          Debug.Log(kindOfNote[kindOfNote.Count - 1]);
+          finalNoteCreateTiming = noteCreateTimings[noteCreateTimings.Count - 1];
         }
       }
       lastElapsedTimeUpToThisBar = elapsedTimeUpToThisBar;
@@ -90,26 +96,28 @@ public class MusicPlayController : MonoBehaviour
       lastBar = bar;
     }
     scorePerNote = MaxScore / noteCreateTimings.Count;
-    Debug.Log(scorePerNote);
+    Debug.Log(finalNoteCreateTiming);
     Music.Play(name, "Section0");
   }
 
   void Update()
   {
-    comboAndScoreText.text = "コンボ数:" + combo + "スコア:" + currentScore;
-    var map = new Map("1", Difficulty.Easy);
     ElapsedTime += Time.deltaTime;
+    if (ElapsedTime >= finalNoteCreateTiming + 3)
+    {
+      Application.LoadLevel("Result");
+    }
     if (ddd < noteCreateTimings.Count)
     {
       if (ElapsedTime >= noteCreateTimings[ddd])
       {
-        for (int eee = ddd + 1; eee < ddd + (UnitPerBar * 1); eee++) //いくつまでノートを同時に押したいかによってここの1という数字は変わる
+        for (int eee = ddd + 1; eee < ddd + (UnitPerBar * 4); eee++) //いくつまでノートを同時に押したいかによってここの1という数字は変わる
         {
           if (eee < noteCreateTimings.Count)
           {
             if (noteCreateTimings[eee] == noteCreateTimings[ddd])
             {   
-              NoteManager.CreateNote(posX[eee], posY[eee], noteTapTimings[eee]);
+              NoteManager.CreateNote(posX[eee], posY[eee], noteTapTimings[eee],kindOfNote[eee]);
               noteCreateTimings.RemoveAt(eee);
               noteTapTimings.RemoveAt(eee);
               posX.RemoveAt(eee);
@@ -117,7 +125,7 @@ public class MusicPlayController : MonoBehaviour
             }
           }
         }
-        NoteManager.CreateNote(posX[ddd],posY[ddd], noteTapTimings[ddd]);
+        NoteManager.CreateNote(posX[ddd],posY[ddd], noteTapTimings[ddd],kindOfNote[ddd]);
         ddd++;
       }
     }
@@ -125,7 +133,7 @@ public class MusicPlayController : MonoBehaviour
 
   double GetCurrentBPM(int Bar)
   {
-    var map = new Map("1", Difficulty.Easy);
+    var map = new Map("1", Difficulty.Hard);
     int currentBar = map.Notes[Bar].Bar;
     for (int ccc = 0; ccc < map.Command.BPMs.Count; ccc++)
     {
