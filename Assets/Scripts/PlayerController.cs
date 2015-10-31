@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
   void Start()
   {
-    var map = new Map("1", Difficulty.Easy);
+    var map = new Map(MusicSelectController.MusicId, Difficulty.Hard);
     var title = GameObject.Find("Title").GetComponent<Text>();
     var difficulty = GameObject.Find("Difficulty").GetComponent<Text>();
 

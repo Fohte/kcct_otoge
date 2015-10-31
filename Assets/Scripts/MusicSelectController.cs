@@ -9,6 +9,7 @@ public class MusicSelectController : MonoBehaviour
 {
   List<Map> maps = new List<Map>();
   int musicNumber = 0;
+  public static string MusicId;
 
   void Start()
   {
@@ -48,6 +49,12 @@ public class MusicSelectController : MonoBehaviour
         musicNumber--;
       }
       MusicSelect();
+    });
+
+    GameObject.Find("Button").GetComponent<Button>().onClick.AddListener(() =>
+    {
+      MusicId = maps[musicNumber].MusicId;
+      Application.LoadLevel("Game");
     });
   }
 
