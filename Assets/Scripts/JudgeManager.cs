@@ -24,7 +24,7 @@ public class JudgeManager : MonoBehaviour
 
   public Judge JudgeTiming()
   {
-    actualTapTiming = MusicPlayController.elapsedTime;
+    actualTapTiming = MusicPlayController.ElapsedTime;
     double difference = System.Math.Abs(exactTapTiming - actualTapTiming) * 1000; //単位はミリ秒。この差がどれぐらいかによって判定する(?)
     Destroy(gameObject);
     if (difference <= 21)
