@@ -12,10 +12,10 @@ public class JudgeManager : MonoBehaviour
 
   void Start ()
   {
-
+    Destroy(gameObject, 1);
   }
-	
-	void Update ()
+
+  void Update ()
   {
     
 	}
