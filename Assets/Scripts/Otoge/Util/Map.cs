@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 
@@ -57,6 +58,7 @@ namespace Otoge.Util
       Header = parseHeader();
       Notes = parseNotes();
       Command = parseCommand();
+      RhythmsZeroPadding();
       this.JacketFilePath = Application.dataPath + "/Jackets/" + Header.JacketFile;
       this.MusicFilePath = Application.dataPath + "/Musics/" + Header.MusicFile;
   }
@@ -139,6 +141,7 @@ namespace Otoge.Util
           note.X = Convert.ToInt32(data.Substring(6, 2), 16);
           note.Y = Convert.ToInt32(data.Substring(8, 2), 16);
           note.Rhythm = data.Substring(data.IndexOf(":") + 1);
+          note.ZeroPadding();         
           notes.Add(note);
         }
       }
@@ -207,6 +210,40 @@ namespace Otoge.Util
           break;
       }
       this.MapFilePath = DirPath + MusicId + "/" + MusicId + "." + subExtension + "." + Extension;
+    }
+
+    public void RhythmsZeroPadding()
+    {
+      var barCount = new List<int>();
+      var count = new List<int>();
+
+      foreach (var barNumber in Notes)
+      {
+        barCount.Add(barNumber.Bar);
+      }
+
+      barCount.Sort();
+      int barMax = barCount.Max();
+
+      for (int i = 0; i <= barMax; i++)
+      {
+        count.Add(i);
+      }
+
+      var differences = count.Except<int>(barCount);
+      foreach (var item in differences)
+      {
+        var note = new Note();
+        note.Bar = item;
+        note.Type = "10";
+        note.X = 0;
+        note.Y = 0;
+        note.Rhythm = "0";
+        note.ZeroPadding();
+        Notes.Insert(item, note);
+      }
+
+      Notes.Sort((a, b) => a.Bar - b.Bar);
     }
   }
 }
