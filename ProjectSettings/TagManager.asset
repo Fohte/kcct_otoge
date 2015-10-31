@@ -3,7 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Tap
+  - Note
+  - Approach
+  - HoldTarget
+  - HoldStatus
+  - FreeFlick
+  - Flick
+  - Hold
   layers:
   - Default
   - TransparentFX
