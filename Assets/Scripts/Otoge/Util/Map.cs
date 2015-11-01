@@ -58,7 +58,7 @@ namespace Otoge.Util
       Header = parseHeader();
       Notes = parseNotes();
       Command = parseCommand();
-      RhythmsZeroPadding();
+     // RhythmsZeroPadding();
       this.JacketFilePath = Application.dataPath + "/Jackets/" + Header.JacketFile;
       this.MusicFilePath = Application.dataPath + "/Musics/" + Header.MusicFile;
   }
@@ -212,7 +212,7 @@ namespace Otoge.Util
       this.MapFilePath = DirPath + MusicId + "/" + MusicId + "." + subExtension + "." + Extension;
     }
 
-    public void RhythmsZeroPadding()
+ /*   public void RhythmsZeroPadding()
     {
       var barCount = new List<int>();
       var count = new List<int>();
@@ -244,6 +244,6 @@ namespace Otoge.Util
       }
 
       Notes.Sort((a, b) => a.Bar - b.Bar);
-    }
+    }*/
   }
 }
