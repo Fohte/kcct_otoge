@@ -6,14 +6,14 @@ public class ResultController : MonoBehaviour
 {
   void Start()
   {
-    //var map = new Map(MusicSelectController.MusicId, Difficulty.Hard);
-    var map = new Map("1", Difficulty.Hard);
+    var map = new Map(MusicSelectController.MusicId, Difficulty.Hard);
+    // var map = new Map("1", Difficulty.Hard);
     var title = GameObject.Find("Title").GetComponent<Text>();
     var creator = GameObject.Find("MusicCreator").GetComponent<Text>();
 
     GameObject.Find("Grade").GetComponent<Text>().text = MusicPlayController.grade;
-    GameObject.Find("Score_value").GetComponent<Text>().text = "0";
-    GameObject.Find("Combo_value").GetComponent<Text>().text = "0";
+    GameObject.Find("Score_value").GetComponent<Text>().text = MusicPlayController.currentScore.ToString();
+    GameObject.Find("Combo_value").GetComponent<Text>().text = MusicPlayController.combo.ToString();
     GameObject.Find("Perfect_value").GetComponent<Text>().text = MusicPlayController.perfect.ToString();
     GameObject.Find("Great_value").GetComponent<Text>().text = MusicPlayController.great.ToString();
     GameObject.Find("Good_value").GetComponent<Text>().text = MusicPlayController.good.ToString();

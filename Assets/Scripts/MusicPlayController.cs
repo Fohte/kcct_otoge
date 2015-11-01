@@ -46,10 +46,12 @@ public class MusicPlayController : MonoBehaviour
   List<double> noteTapTimings = new List<double>();
   List<string> kindOfNote = new List<string>();
 
+  Map map;
+
   void Start()
   {
     ElapsedTime = 0;
-    var map = new Map("1", Difficulty.Hard);
+    map = new Map(MusicSelectController.MusicId, Difficulty.Hard);
     double elapsedTimeUpToThisBar = 0;
     Music music = GameObject.Find("Music").AddComponent<Music>();
     music.Sections = new List<Music.Section>();
@@ -162,7 +164,6 @@ public class MusicPlayController : MonoBehaviour
 
   double GetCurrentBPM(int Bar)
   {
-    var map = new Map("1", Difficulty.Hard);
     int currentBar = map.Notes[Bar].Bar;
     for (int ccc = 0; ccc < map.Command.BPMs.Count; ccc++)
     {

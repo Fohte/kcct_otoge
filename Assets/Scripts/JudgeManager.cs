@@ -4,13 +4,7 @@ using Otoge.Util;
 
 public class JudgeManager : MonoBehaviour
 {
-<<<<<<< HEAD
-  public double ExactTapTiming = 2; //単位は秒
-=======
-  
-
   public double ExactTapTiming = 0; //単位は秒
->>>>>>> game
   double actualTapTiming; //単位は秒
   public static Judge judge;
   // public static Judge judge = Judge.Miss;
@@ -26,6 +20,8 @@ public class JudgeManager : MonoBehaviour
   {
     noteTouchManager = GetComponent<NoteTouchManager>();
 
+    Debug.Log(transform.tag);
+    Debug.Log(noteTouchManager.IsJustTouched());
     switch (transform.tag)
     {
       case "Tap":

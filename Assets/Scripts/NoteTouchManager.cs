@@ -34,12 +34,15 @@ public class NoteTouchManager : MonoBehaviour
     if (Input.touchCount == 0)
       return;
 
+    var note = transform.FindChild(GameObject.FindGameObjectWithTag("Note").transform.name).gameObject;
+
     for (int i = 0; i < Input.touchCount; i++)
     {
       Touch touch = Input.touches[i];
 
       var position = Camera.main.ScreenToWorldPoint(touch.position);
       var colliders = Physics2D.OverlapPointAll(position);
+      Debug.Log(position);
 
       foreach (var collider in colliders)
       {
