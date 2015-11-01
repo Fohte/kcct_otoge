@@ -11,13 +11,14 @@ public class NoteTouchManager : MonoBehaviour
 
   void Start()
   {
-    foreach (Transform child in transform)
+    /*foreach (Transform child in transform)
     {
       if (child.tag == "Note")
       {
         note = child.gameObject;
       }
-    }
+    }*/
+    note = gameObject;
   }
 
   void Update()
@@ -33,8 +34,6 @@ public class NoteTouchManager : MonoBehaviour
   {
     if (Input.touchCount == 0)
       return;
-
-    var note = transform.FindChild(GameObject.FindGameObjectWithTag("Note").transform.name).gameObject;
 
     for (int i = 0; i < Input.touchCount; i++)
     {

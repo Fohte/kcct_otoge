@@ -18,39 +18,58 @@ public class JudgeManager : MonoBehaviour
 
   void Update()
   {
-    noteTouchManager = GetComponent<NoteTouchManager>();
-
-    Debug.Log(transform.tag);
-    Debug.Log(noteTouchManager.IsJustTouched());
-    switch (transform.tag)
+    if (GameObject.FindWithTag("Note"))
     {
-      case "Tap":
-        if (!noteTouchManager.IsJustTouched())
-          return;
-        break;
-      case "Flick":
-        if (!noteTouchManager.IsFlicked())
-          return;
-        break;
-      case "FreeFlick":
-        if (!noteTouchManager.IsFlicked())
-          return;
-        break;
-      case "Hold":
-        break;
+      var noteObj = transform.FindChild(GameObject.FindWithTag("Note").transform.name);
+      if (noteObj)
+      {
+        noteTouchManager = noteObj.GetComponent<NoteTouchManager>();
+
+        switch (transform.tag)
+        {
+          case "Tap":
+            if (!noteTouchManager.IsJustTouched())
+              return;
+            break;
+          case "Flick":
+            if (!noteTouchManager.IsFlicked())
+              return;
+            break;
+          case "FreeFlick":
+            if (!noteTouchManager.IsFlicked())
+              return;
+            break;
+          case "Hold":
+            break;
+        }
+
+        judge = JudgeTiming();
+
+        if (!GameObject.Find(judge.ToString()))
+        {
+          if (judge != Judge.Miss)
+          {
+            Debug.Log(transform.name);
+            var note = transform.FindChild(GameObject.FindWithTag("Note").transform.name);
+            var approach = transform.FindChild(GameObject.FindWithTag("Approach").transform.name);
+            if (note != null && approach != null)
+            {
+              Destroy(note.gameObject);
+              Destroy(approach.gameObject);
+            }
+            var judgeObject = Instantiate(Resources.Load("Prefabs/" + judge.ToString()), new Vector3(0, 0, 0), transform.rotation) as GameObject;
+            judgeObject.transform.SetParent(transform);
+            judgeObject.transform.localPosition = Vector3.zero;
+            Destroy(gameObject, 1);
+          }
+          
+
+          MusicPlayController.comboAndScoreUpdate();
+        }
+      }
+    
     }
 
-    judge = JudgeTiming();
-
-    if (judge != Judge.Miss && !GameObject.Find(judge.ToString()))
-    {
-      var judgeObject = Instantiate(Resources.Load("Prefabs/" + judge.ToString())) as GameObject;
-      judgeObject.transform.SetParent(transform);
-      Destroy(gameObject, 1);
-      Destroy(transform.FindChild(GameObject.FindGameObjectWithTag("Approach").transform.name).gameObject);
-      Destroy(transform.FindChild(GameObject.FindGameObjectWithTag("Note").transform.name).gameObject);
-    }
-    MusicPlayController.comboAndScoreUpdate();
   }
 
   public Judge JudgeTiming()

@@ -40,6 +40,7 @@ public class MusicPlayController : MonoBehaviour
   double mtPerSecond = 0;
   double currentBPM = 0;
   double finalNoteCreateTiming;
+  double elapsedTimeUpToThisBar = 0;
   List<float> posX = new List<float>();
   List<float> posY = new List<float>();
   List<double> noteCreateTimings = new List<double>();
@@ -51,8 +52,16 @@ public class MusicPlayController : MonoBehaviour
   void Start()
   {
     ElapsedTime = 0;
+    perfect = 0;
+    great = 0;
+    good = 0;
+    bad = 0;
+    miss = 0;
+    currentScore = 0;
+    elapsedTimeUpToThisBar = 0;
+    combo = 0;
+
     map = new Map(MusicSelectController.MusicId, Difficulty.Hard);
-    double elapsedTimeUpToThisBar = 0;
     Music music = GameObject.Find("Music").AddComponent<Music>();
     music.Sections = new List<Music.Section>();
 
