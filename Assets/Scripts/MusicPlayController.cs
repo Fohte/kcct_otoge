@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -171,6 +172,8 @@ public class MusicPlayController : MonoBehaviour
         miss++;
         break;
     }
-    currentScore = Math.Ceiling(score);
+
+    GameObject.Find("Score").GetComponent<Text>().text = String.Format("{0:0000000}", currentScore);
+    GameObject.Find("Combo").GetComponent<Text>().text = combo > 0 ? combo.ToString() : "";
   }
 }

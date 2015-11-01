@@ -89,9 +89,18 @@ public class NoteTouchManager : MonoBehaviour
 
   public bool IsFlicked(float direction)
   {
+    if (!IsTouching())
+      return false;
+
     Vector3 diff = touchPosition - beginPosition;
     float radian = Mathf.Atan2(diff.x, diff.y) * Mathf.Rad2Deg;
+    Debug.Log(radian);
 
+    if (Mathf.Abs(direction) == 180f)
+    {
+      direction = Mathf.Abs(direction);
+      radian = Mathf.Abs(direction);
+    }
     return IsFlicked() && (direction - 22.5f < radian && radian < direction + 22.5f);
   }
 
