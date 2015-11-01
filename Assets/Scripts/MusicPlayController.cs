@@ -66,6 +66,8 @@ public class MusicPlayController : MonoBehaviour
     Music music = GameObject.Find("Music").AddComponent<Music>();
     music.Sections = new List<Music.Section>();
 
+    GameObject.Find("Music").GetComponent<AudioSource>().clip = (AudioClip)Resources.Load("Musics/" + map.Header.MusicFile);
+
     //Sectionを作成する部分。
     for (int BPMChangeNumber = 0; BPMChangeNumber < map.Command.BPMs.Count; BPMChangeNumber++)
     {
