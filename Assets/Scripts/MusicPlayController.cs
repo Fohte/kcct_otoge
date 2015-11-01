@@ -58,6 +58,7 @@ public class MusicPlayController : MonoBehaviour
     bad = 0;
     miss = 0;
     currentScore = 0;
+    score = 0;
     elapsedTimeUpToThisBar = 0;
     combo = 0;
 
@@ -97,11 +98,9 @@ public class MusicPlayController : MonoBehaviour
           posX.Add(map.Notes[aaa].X);
           posY.Add(map.Notes[aaa].Y);
           kindOfNote.Add(map.Notes[aaa].Type);
-          Debug.Log(map.Header.Offset / 1000);
           Debug.Log(noteCreateTimings[noteCreateTimings.Count - 1]);
           Debug.Log(posX[posX.Count - 1]);
           Debug.Log(posY[posY.Count - 1]);
-          Debug.Log(kindOfNote[kindOfNote.Count - 1]);
           finalNoteCreateTiming = noteCreateTimings[noteCreateTimings.Count - 1];
         }
       }
@@ -110,7 +109,6 @@ public class MusicPlayController : MonoBehaviour
       lastBar = bar;
     }
     scorePerNote = MaxScore / noteCreateTimings.Count;
-    Debug.Log(finalNoteCreateTiming);
     Music.Play(name, "Section0");
   }
 
@@ -119,7 +117,7 @@ public class MusicPlayController : MonoBehaviour
     ElapsedTime += Time.deltaTime;
     if (ElapsedTime >= finalNoteCreateTiming + 3)
     {
-        if (currentScore >= 990000)//AAA+
+        if (currentScore >= 990000)
         {
           grade = "AAA+";
         }
@@ -151,7 +149,7 @@ public class MusicPlayController : MonoBehaviour
     {
       if (ElapsedTime >= noteCreateTimings[ddd])
       {
-        for (int eee = ddd + 1; eee < ddd + (UnitPerBar * 4); eee++) //いくつまでノートを同時に押したいかによってここの1という数字は変わる
+        for (int eee = ddd + 1; eee < ddd + (UnitPerBar * 2); eee++) //いくつまでノートを同時に押したいかによってここの1という数字は変わる
         {
           if (eee < noteCreateTimings.Count)
           {
@@ -218,7 +216,7 @@ public class MusicPlayController : MonoBehaviour
         miss++;
         break;
     }
-
+    currentScore = Math.Ceiling(score);
     GameObject.Find("Score").GetComponent<Text>().text = String.Format("{0:0000000}", currentScore);
     GameObject.Find("Combo").GetComponent<Text>().text = combo > 0 ? combo.ToString() : "";
   }

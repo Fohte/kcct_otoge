@@ -18,7 +18,7 @@ public class ResultController : MonoBehaviour
     GameObject.Find("Great_value").GetComponent<Text>().text = MusicPlayController.great.ToString();
     GameObject.Find("Good_value").GetComponent<Text>().text = MusicPlayController.good.ToString();
     GameObject.Find("Bad_value").GetComponent<Text>().text = MusicPlayController.bad.ToString();
-   // GameObject.Find("Miss_value").GetComponent<Text>().text = MusicPlayController.miss.ToString();
+    GameObject.Find("Miss_value").GetComponent<Text>().text = MusicPlayController.miss.ToString();
 
     title.text = map.Header.Title;
     creator.text = map.Header.MusicArtist;
