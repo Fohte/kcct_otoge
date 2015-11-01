@@ -48,7 +48,7 @@ GameObject:
   - 114: {fileID: 11421392}
   - 114: {fileID: 11425040}
   m_Layer: 0
-  m_Name: note11
+  m_Name: FlickObject
   m_TagString: Flick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36b7934299b7d6b4ca199a670f9df532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ExactTapTiming: 9.5
+  ExactTapTiming: 10.5
 --- !u!114 &11427068
 MonoBehaviour:
   m_ObjectHideFlags: 1

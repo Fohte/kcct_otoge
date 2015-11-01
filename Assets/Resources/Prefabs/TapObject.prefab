@@ -48,7 +48,7 @@ GameObject:
   - 114: {fileID: 11494756}
   - 114: {fileID: 11443100}
   m_Layer: 0
-  m_Name: note8
+  m_Name: TapObject
   m_TagString: Tap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36b7934299b7d6b4ca199a670f9df532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ExactTapTiming: 8
+  ExactTapTiming: 9
 --- !u!114 &11446172
 MonoBehaviour:
   m_ObjectHideFlags: 1

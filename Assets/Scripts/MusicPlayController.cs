@@ -24,16 +24,17 @@ public class MusicPlayController : MonoBehaviour
   public static int good = 0;
   public static int bad = 0;
   public static int miss = 0;
+  public static double currentScore = 0;
+  public static int combo = 0;
+  public static string grade;
 
   int ddd = 0;
   int bar = 0;
   int beat = 0;
   int unit = 0;
   int lastBar = 1000;
-  static int combo = 0;
   static double score = 0;
   static double scorePerNote = 0;
-  static double currentScore = 0;
   double lastElapsedTimeUpToThisBar = 0;
   double mtPerSecond = 0;
   double currentBPM = 0;
@@ -79,11 +80,12 @@ public class MusicPlayController : MonoBehaviour
         {
           beat = (bbb / (UnitPerBeat));
           unit = (bbb % (UnitPerBeat));
-          noteTapTimings.Add((beat * UnitPerBeat + unit) / mtPerSecond + elapsedTimeUpToThisBar); //単位は秒。
+          noteTapTimings.Add((beat * UnitPerBeat + unit) / mtPerSecond + elapsedTimeUpToThisBar + (map.Header.Offset / 1000)); //単位は秒。
           noteCreateTimings.Add(noteTapTimings[noteTapTimings.Count - 1] - 0.5 ); //0.5は適当に置いてるだけの数字。たたく何秒前にノーツを表示させたいかを入れる。
           posX.Add(map.Notes[aaa].X);
           posY.Add(map.Notes[aaa].Y);
           kindOfNote.Add(map.Notes[aaa].Type);
+          Debug.Log(map.Header.Offset / 1000);
           Debug.Log(noteCreateTimings[noteCreateTimings.Count - 1]);
           Debug.Log(posX[posX.Count - 1]);
           Debug.Log(posY[posY.Count - 1]);
@@ -105,8 +107,34 @@ public class MusicPlayController : MonoBehaviour
     ElapsedTime += Time.deltaTime;
     if (ElapsedTime >= finalNoteCreateTiming + 3)
     {
+        if (currentScore >= 990000)//AAA+
+        {
+          grade = "AAA+";
+        }
+        else if (currentScore >= 980000)
+        {
+          grade = "AAA";
+        }
+        else if (currentScore >= 950000)
+        {
+          grade = "AA";
+        }
+        else if (currentScore >= 900000)
+        {
+          grade = "A";
+        }
+        else if (currentScore >= 800000)
+        {
+          grade = "B";
+        }
+        else
+        {
+          grade = "C";
+        }
+      Debug.Log(grade);
       Application.LoadLevel("Result");
     }
+ 
     if (ddd < noteCreateTimings.Count)
     {
       if (ElapsedTime >= noteCreateTimings[ddd])
