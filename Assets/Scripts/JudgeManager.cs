@@ -6,7 +6,8 @@ public class JudgeManager : MonoBehaviour
 {
   public double ExactTapTiming = 2; //単位は秒
   double actualTapTiming; //単位は秒
-  public static Judge judge = Judge.Miss;
+  public static Judge judge;
+  // public static Judge judge = Judge.Miss;
 
   NoteTouchManager noteTouchManager;
 
@@ -17,39 +18,35 @@ public class JudgeManager : MonoBehaviour
 
   void Update()
   {
-    var notes = GameObject.FindGameObjectsWithTag("Note");
+    noteTouchManager = GetComponent<NoteTouchManager>();
 
-    foreach (var note in notes)
+    switch (transform.tag)
     {
-      var parent = note.transform.parent.gameObject;
-      noteTouchManager = parent.GetComponent<NoteTouchManager>();
+      case "Tap":
+        if (!noteTouchManager.IsJustTouched())
+          return;
+        break;
+      case "Flick":
+        if (!noteTouchManager.IsFlicked())
+          return;
+        break;
+      case "FreeFlick":
+        if (!noteTouchManager.IsFlicked())
+          return;
+        break;
+      case "Hold":
+        break;
+    }
 
-      switch (parent.transform.tag)
-      {
-        case "Tap":
-          if (!noteTouchManager.IsJustTouched())
-            return;
-          break;
-        case "Flick":
-          if (!noteTouchManager.IsFlicked())
-            return;
-          break;
-        case "FreeFlick":
-          if (!noteTouchManager.IsFlicked())
-            return;
-          break;
-        case "Hold":
-          break;
-      }
+    judge = JudgeTiming();
 
-      judge = JudgeTiming();
-
-      if (judge != Judge.Miss && !GameObject.Find(judge.ToString()))
-      {
-        var judgeObject = Instantiate(Resources.Load("Prefabs/" + judge.ToString())) as GameObject;
-        judgeObject.transform.SetParent(parent.transform);
-        Destroy(judgeObject, 1);
-      }
+    if (judge != Judge.Miss && !GameObject.Find(judge.ToString()))
+    {
+      var judgeObject = Instantiate(Resources.Load("Prefabs/" + judge.ToString())) as GameObject;
+      judgeObject.transform.SetParent(transform);
+      Destroy(gameObject, 1);
+      Destroy(transform.FindChild(GameObject.FindGameObjectWithTag("Approach").transform.name).gameObject);
+      Destroy(transform.FindChild(GameObject.FindGameObjectWithTag("Note").transform.name).gameObject);
     }
     MusicPlayController.comboAndScoreUpdate();
   }
